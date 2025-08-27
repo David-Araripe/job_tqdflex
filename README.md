@@ -42,7 +42,7 @@ print(results)  # [0, 1, 4, 9, 16, 25, ...]
 ### Basic Usage
 
 ```python
-from joblib_tqdm import ParallelApplier
+from job_tqdflex import ParallelApplier
 
 def process_item(item):
     # Your processing logic here
@@ -134,7 +134,7 @@ applier = ParallelApplier(func, large_dataset, chunk_size=100)
 ### Using the Low-Level `tqdm_joblib` Context Manager
 
 ```python
-from joblib_tqdm import tqdm_joblib
+from job_tqdflex import tqdm_joblib
 from joblib import Parallel, delayed
 from tqdm import tqdm
 
