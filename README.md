@@ -130,6 +130,9 @@ applier = ParallelApplier(func, data, show_progress=False)
 
 # Custom chunk size for memory management
 applier = ParallelApplier(func, large_dataset, chunk_size=100)
+
+# Custom progress bar description (default: "Applying {func_name} to chunks")
+applier = ParallelApplier(func, data, custom_desc="Processing...")
 ```
 
 ### Using the Low-Level `tqdm_joblib` Context Manager
@@ -158,6 +161,7 @@ with tqdm_joblib(tqdm(total=10, desc="Processing")) as progress_bar:
 - **`n_jobs`**: Number of parallel jobs (default: `8`, use `-1` for all cores)
 - **`backend`**: Parallelization backend (`"loky"`, `"threading"`, or `"multiprocessing"`)
 - **`chunk_size`**: Size of chunks to process (default: auto-calculated)
+- **`custom_desc`**: Custom description for the progress bar (default: `None`, uses `"Applying {func_name} to chunks"`)
 - **`logger`**: Optional custom logger instance (supports standard logging and loguru)
 
 ### Performance Tips

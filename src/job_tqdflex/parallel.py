@@ -143,6 +143,10 @@ class ParallelApplier:
         >>> from loguru import logger as loguru_logger
         >>> applier = ParallelApplier(square, data, n_jobs=4, logger=loguru_logger)
         >>> results = applier()
+        >>>
+        >>> # With custom progress bar description
+        >>> applier = ParallelApplier(square, data, n_jobs=4, custom_desc="Processing data points")
+        >>> results = applier()
     """
     
     def __init__(
@@ -153,6 +157,7 @@ class ParallelApplier:
         n_jobs: int = 8,
         backend: str = "loky",
         chunk_size: Optional[int] = None,
+        custom_desc: Optional[str] = None,
         logger=None,
     ):
         """
@@ -165,6 +170,7 @@ class ParallelApplier:
             n_jobs: Number of parallel jobs (-1 for all cores)
             backend: Parallelization backend ('loky', 'threading', or 'multiprocessing')
             chunk_size: Size of chunks to process (if None, calculated automatically)
+            custom_desc: Custom description for the progress bar (if None, uses default)
             logger: Optional custom logger instance (supports standard logging and loguru)
             
         Raises:
@@ -175,6 +181,7 @@ class ParallelApplier:
         self.show_progress = show_progress
         self.n_jobs = n_jobs if n_jobs > 0 else None  # None means all cores in joblib
         self.backend = self._set_backend(backend)
+        self.custom_desc = custom_desc
         
         # Set up logging functions
         self._debug_log, self._error_log = _get_logger_function(logger)
@@ -336,10 +343,11 @@ class ParallelApplier:
             # Execute parallel processing
             if self.show_progress and self.n_chunks > 1:
                 # Use progress bar for multi-chunk processing
+                desc = self.custom_desc if self.custom_desc is not None else f"Applying {self.func_name} to chunks"
                 with tqdm_joblib(
                     tqdm(
                         total=self.n_chunks,
-                        desc=f"Applying {self.func_name} to chunks",
+                        desc=desc,
                         unit="chunk",
                         position=0,
                         leave=True,
