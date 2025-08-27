@@ -1,6 +1,7 @@
 # job-tqdflex
 
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FDavid-Araripe%2Fjob_tqdflex%2Fbadge%3Fref%3Dmaster&style=flat-square)](https://actions-badge.atrox.dev/David-Araripe/job_tqdflex/goto?ref=master)
 
 A Python library supporting parallel processing with progress bars using joblib (*job*) and tqdm (*tq*), with flexibility (*flex*) for chunked processing for memory efficiency.
 
