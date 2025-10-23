@@ -323,7 +323,8 @@ class ParallelApplier:
 
         Raises:
             ValueError: If trying to pass kwargs to a partial function
-            RuntimeError: If parallel processing fails
+            Exception: Any exception raised by the function during processing
+                is propagated with its original type preserved
         """
         try:
             chunks = self._make_chunks()
@@ -372,7 +373,7 @@ class ParallelApplier:
             
         except Exception as e:
             self._error_log(f"Parallel processing failed: {e}")
-            raise RuntimeError(f"Parallel processing failed: {e}") from e
+            raise
 
     def __enter__(self):
         """Context manager entry."""

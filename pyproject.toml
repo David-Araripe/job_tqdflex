@@ -8,11 +8,16 @@ version = "0.1.0"
 description = "Parallel processing with progress bars using joblib and tqdm"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "CC-BY-SA-4.0"}
-authors = [
-    {name = "David Araripe", email = "david.araripe17@gmail.com"}
+license = { text = "CC-BY-SA-4.0" }
+authors = [{ name = "David Araripe", email = "david.araripe17@gmail.com" }]
+keywords = [
+    "parallel",
+    "processing",
+    "joblib",
+    "tqdm",
+    "progress",
+    "multiprocessing",
 ]
-keywords = ["parallel", "processing", "joblib", "tqdm", "progress", "multiprocessing"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -28,10 +33,7 @@ classifiers = [
     "Topic :: System :: Distributed Computing",
     "Topic :: Utilities",
 ]
-dependencies = [
-    "joblib>=1.0.0",
-    "tqdm>=4.60.0",
-]
+dependencies = ["joblib>=1.0.0", "tqdm>=4.60.0"]
 
 [project.optional-dependencies]
 dev = [
@@ -43,11 +45,7 @@ dev = [
     "mypy",
     "loguru>=0.6.0",
 ]
-test = [
-    "pytest>=6.0",
-    "pytest-cov",
-    "pytest-mock",
-]
+test = ["pytest>=6.0", "pytest-cov", "pytest-mock"]
 
 [project.urls]
 Homepage = "https://github.com/yourusername/joblib-tqdm"
@@ -83,4 +81,4 @@ show_error_codes = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=joblib_tqdm --cov-report=term-missing --cov-report=html"
+addopts = "--cov=job_tqdflex --cov-report=term-missing --cov-report=html"

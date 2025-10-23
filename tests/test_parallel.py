@@ -174,8 +174,8 @@ class TestParallelApplier:
         """Test that partial functions with kwargs raise ValueError."""
         partial_func = partial(pow, exp=2)
         applier = ParallelApplier(partial_func, [1, 2, 3], show_progress=False)
-        
-        with pytest.raises(RuntimeError, match="Parallel processing failed.*Cannot pass keyword arguments when using a partial function"):
+
+        with pytest.raises(ValueError, match="Cannot pass keyword arguments when using a partial function"):
             applier(some_arg=1)
     
     def test_progress_bar_disabled(self):
@@ -231,13 +231,58 @@ class TestParallelApplier:
             if x == 3:
                 raise ValueError(f"Error with value {x}")
             return x * 2
-        
+
         data = [1, 2, 3, 4]
         applier = ParallelApplier(error_func, data, show_progress=False, n_jobs=1)
-        
-        with pytest.raises(RuntimeError, match="Parallel processing failed"):
+
+        with pytest.raises(ValueError, match="Error with value 3"):
             applier()
-    
+
+    def test_exception_type_preservation(self):
+        """Test that different exception types are preserved correctly."""
+        # Test ValueError
+        def value_error_func(x):
+            if x == 2:
+                raise ValueError("Value error message")
+            return x
+
+        applier = ParallelApplier(value_error_func, [1, 2, 3], show_progress=False, n_jobs=1)
+        with pytest.raises(ValueError, match="Value error message"):
+            applier()
+
+        # Test TypeError
+        def type_error_func(x):
+            if x == 2:
+                raise TypeError("Type error message")
+            return x
+
+        applier = ParallelApplier(type_error_func, [1, 2, 3], show_progress=False, n_jobs=1)
+        with pytest.raises(TypeError, match="Type error message"):
+            applier()
+
+        # Test RuntimeError
+        def runtime_error_func(x):
+            if x == 2:
+                raise RuntimeError("Runtime error message")
+            return x
+
+        applier = ParallelApplier(runtime_error_func, [1, 2, 3], show_progress=False, n_jobs=1)
+        with pytest.raises(RuntimeError, match="Runtime error message"):
+            applier()
+
+        # Test custom exception
+        class CustomError(Exception):
+            pass
+
+        def custom_error_func(x):
+            if x == 2:
+                raise CustomError("Custom error message")
+            return x
+
+        applier = ParallelApplier(custom_error_func, [1, 2, 3], show_progress=False, n_jobs=1)
+        with pytest.raises(CustomError, match="Custom error message"):
+            applier()
+
     def test_logging_configuration(self):
         """Test that logging works correctly."""
         # Test that custom logger is properly set up
