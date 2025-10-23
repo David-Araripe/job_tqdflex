@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=64", "setuptools_scm>=8", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "job-tqdflex"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Parallel processing with progress bars using joblib and tqdm"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -84,3 +84,6 @@ show_error_codes = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--cov=job_tqdflex --cov-report=term-missing --cov-report=html"
+
+[tool.setuptools_scm]
+write_to = "src/job_tqdflex/_version.py"
